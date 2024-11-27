@@ -31,10 +31,10 @@ def get_ticker_information(ticker):
         price_mean = targets['mean']
     else:
         recommendation = '-'
-        recommendation_percent = 0
-        price_low = 0
-        price_high = 0
-        price_mean = 0
+        recommendation_percent = 0.0
+        price_low = 0.0
+        price_high = 0.0
+        price_mean = 0.0
         earnings_date = '-'
     return {"recommendation": recommendation, 
             "recommendation_percent": np.round(recommendation_percent*100, 0),
