@@ -19,15 +19,23 @@ def get_recommendation(tck):
 
 def get_ticker_information(ticker):
     tck = yf.Ticker(ticker)
-    recommendation, recommendation_percent = get_recommendation(tck)
-    if (len(tck.calendar['Earnings Date']) != 0):
-        earnings_date = str(tck.calendar['Earnings Date'][0]) 
+    if(tck.info['quoteType'] == 'EQUITY'):
+        recommendation, recommendation_percent = get_recommendation(tck)
+        if (len(tck.calendar['Earnings Date']) != 0):
+            earnings_date = str(tck.calendar['Earnings Date'][0]) 
+        else:
+            earnings_date = '-'
+        targets = tck.analyst_price_targets
+        price_low = targets['low']
+        price_high = targets['high']
+        price_mean = targets['mean']
     else:
+        recommendation = '-'
+        recommendation_percent = 0
+        price_low = 0
+        price_high = 0
+        price_mean = 0
         earnings_date = '-'
-    targets = tck.analyst_price_targets
-    price_low = targets['low']
-    price_high = targets['high']
-    price_mean = targets['mean']
     return {"recommendation": recommendation, 
             "recommendation_percent": np.round(recommendation_percent*100, 0),
             "earnings_date": earnings_date, 
